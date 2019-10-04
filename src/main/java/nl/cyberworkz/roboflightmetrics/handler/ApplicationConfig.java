@@ -6,10 +6,8 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.joda.JodaModule;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.hateoas.config.EnableEntityLinks;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -26,14 +24,11 @@ import java.util.List;
 
 @EnableWebMvc
 @Configuration
-@Import(RoboFlightMetricsController.class)
+@Import(RoboFlightMetricsService.class)
 @PropertySource("classpath:application.properties")
 public class ApplicationConfig extends WebMvcConfigurerAdapter{
 
 	private static final long MAX_UPLOAD_SIZE = 125_829_120L;
-
-
-
 
     @Bean
     @Primary
@@ -41,11 +36,6 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter{
         ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().build();
         objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-
-        // set timezone
-//        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-//        objectMapper.setDateFormat(dateFormat);
-        objectMapper.registerModule(new JodaModule());
 
         return objectMapper;
     }

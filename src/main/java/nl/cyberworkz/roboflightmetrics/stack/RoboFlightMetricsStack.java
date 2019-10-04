@@ -7,10 +7,8 @@ import software.amazon.awscdk.services.dynamodb.Attribute;
 import software.amazon.awscdk.services.dynamodb.AttributeType;
 import software.amazon.awscdk.services.dynamodb.Table;
 import software.amazon.awscdk.services.dynamodb.TableProps;
-import software.amazon.awscdk.services.events.targets.LambdaFunction;
-import software.amazon.awscdk.services.events.targets.SqsQueue;
-import software.amazon.awscdk.services.lambda.*;
 import software.amazon.awscdk.services.lambda.Runtime;
+import software.amazon.awscdk.services.lambda.*;
 import software.amazon.awscdk.services.sqs.Queue;
 import software.amazon.awscdk.services.sqs.QueueProps;
 
@@ -55,7 +53,5 @@ public class RoboFlightMetricsStack extends Stack {
         //grant sending messages and consuming messages to the queue .
         monitorEventQueue.grantSendMessages(flightMonitorFn);
         monitorEventQueue.grantConsumeMessages(metricsFunction);
-
-        
     }
 }
