@@ -10,6 +10,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <aws.cdk.version>1.10.1DEVPREVIEW</aws.cdk.version>
+        <log4j.version>2.8.2</log4j.version>
         <spring.version>5.1.3.RELEASE</spring.version>
         <junit.platform.version>1.2.0</junit.platform.version>
         <junit.jupiter.version>5.2.0</junit.jupiter.version>
@@ -18,12 +19,19 @@
     <dependencies>
 
 
-        <!-- AWS Serverless Spring -->
+        <!-- AWS Lambda -->
         <dependency>
-            <groupId>com.amazonaws.serverless</groupId>
-            <artifactId>aws-serverless-java-container-spring</artifactId>
-            <version>1.2</version>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-lambda-java-core</artifactId>
+            <version>1.2.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-lambda-java-events</artifactId>
+            <version>2.2.7</version>
+        </dependency>
+
 
         <!-- Spring -->
         <dependency>
