@@ -1,0 +1,3 @@
+{
+  "app": "mvn exec:java -Dexec.mainClass=nl.cyberworkz.roboflightmetrics.stack.RoboFlightMetricsApp"
+}
