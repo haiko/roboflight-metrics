@@ -7,6 +7,8 @@ import software.amazon.awscdk.services.dynamodb.Table;
 import software.amazon.awscdk.services.dynamodb.TableProps;
 import software.amazon.awscdk.services.lambda.Runtime;
 import software.amazon.awscdk.services.lambda.*;
+import software.amazon.awscdk.services.lambda.eventsources.SqsEventSource;
+import software.amazon.awscdk.services.lambda.eventsources.SqsEventSourceProps;
 import software.amazon.awscdk.services.sqs.Queue;
 import software.amazon.awscdk.services.sqs.QueueProps;
 
@@ -31,10 +33,10 @@ public class RoboFlightMetricsStack extends Stack {
     private final static  String account = "";
 
     RoboFlightMetricsStack(final Construct parent, final String name) {
-        super(parent, name, StackProps.builder()
-                .withEnv(Environment.builder()
-                        .withAccount(account)
-                        .withRegion(region)
+        super(parent, name, StackProps.builder().
+                env(Environment.builder()
+                        .account(account)
+                        .region(region)
                         .build())
                 .build());
 
@@ -44,39 +46,39 @@ public class RoboFlightMetricsStack extends Stack {
 
         // SQS Queue
         Queue monitorEventQueue  = new Queue(this, "metrics-queue", QueueProps.builder()
-                .withQueueName("metrics-queue")
-                .withVisibilityTimeout(Duration.seconds(60)) // 6 times the duration of the timeout consuming Lambda function
+                .queueName("metrics-queue")
+                .visibilityTimeout(Duration.seconds(60)) // 6 times the duration of the timeout consuming Lambda function
                 .build());
 
         //DynamoDB
         Table metricsTable = new Table(this, "metricsTable", TableProps.builder()
-                .withTableName("metrics")
-                .withReadCapacity(1)
-                .withWriteCapacity(1)
-                .withPartitionKey(Attribute.builder()
-                        .withName("event_time")
-                        .withType(AttributeType.STRING)
+                .tableName("metrics")
+                .readCapacity(1)
+                .writeCapacity(1)
+                .partitionKey(Attribute.builder()
+                        .name("event_time")
+                        .type(AttributeType.STRING)
                         .build())
-                .withSortKey(Attribute.builder()
-                        .withName("origin_flight")
-                        .withType(AttributeType.STRING)
+                .sortKey(Attribute.builder()
+                        .name("origin_flight")
+                        .type(AttributeType.STRING)
                         .build())
                 .build());
 
         // Lambda
         List<IEventSource> eventSources = new ArrayList<>();
-        eventSources.add(new SqsEvent)
+        eventSources.add(new SqsEventSource(monitorEventQueue));
 
         SingletonFunction metricsFunction = new SingletonFunction(this, "cdk-lambda-metrics",
                 SingletonFunctionProps.builder()
-                        .withUuid(UUID.randomUUID().toString())
-                        .withDescription("Collection metrics from AWS SQS queue")
-                        .withRuntime(Runtime.JAVA_8)
-                        .withCode(Code.asset("target/classes"))
-                        .withHandler("nl.cyberworkz.roboflightmetrics.handler.StreamLambdaHandler")
-                        .withTimeout(Duration.seconds(10))
-                        .withMemorySize(256)
-                        .withEvents()
+                        .uuid(UUID.randomUUID().toString())
+                        .description("Collection metrics from AWS SQS queue")
+                        .runtime(Runtime.JAVA_8)
+                        .code(Code.asset("target/classes"))
+                        .handler("nl.cyberworkz.roboflightmetrics.handler.StreamLambdaHandler")
+                        .timeout(Duration.seconds(10))
+                        .memorySize(256)
+                        .events(eventSources)
                         .build());
 
         //grant sending messages and consuming messages to the queue .
