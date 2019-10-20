@@ -79,6 +79,7 @@ public class RoboFlightMetricsStack extends Stack {
                         .timeout(Duration.seconds(10))
                         .memorySize(256)
                         .events(eventSources)
+                        .tracing(Tracing.ACTIVE) // turn AWS XRay on
                         .build());
 
         //grant sending messages and consuming messages to the queue .
