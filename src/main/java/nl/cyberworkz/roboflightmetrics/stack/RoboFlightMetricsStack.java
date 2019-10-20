@@ -56,7 +56,7 @@ public class RoboFlightMetricsStack extends Stack {
                 .readCapacity(1)
                 .writeCapacity(1)
                 .partitionKey(Attribute.builder()
-                        .name("event_time")
+                        .name("originFlight-clientIp")
                         .type(AttributeType.STRING)
                         .build())
                 .sortKey(Attribute.builder()

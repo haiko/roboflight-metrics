@@ -1,7 +1,12 @@
 package nl.cyberworkz.roboflightmetrics.handler.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 public class Metrics {
 
     private String originFlight;
@@ -13,17 +18,5 @@ public class Metrics {
     private String carrier;
 
     private LocalDateTime eventTime;
-
-    private Metrics(String originFlight, LocalDateTime landingTime, String carrier, LocalDateTime eventTime, String clientIP) {
-        this.originFlight = originFlight;
-        this.landingTime = landingTime;
-        this.carrier = carrier;
-        this.eventTime = eventTime;
-        this.clientIP = clientIP;
-    }
-
-    public static Metrics createMetric(String originFlight, LocalDateTime landingTime, String carrier, LocalDateTime eventTime, String clientIP) {
-        return new Metrics(originFlight, landingTime, carrier, eventTime, clientIP);
-    }
 
 }
