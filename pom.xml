@@ -46,9 +46,6 @@
             <version>2.2.7</version>
         </dependency>
 
-        <!-- Spring -->
-
-
         <!-- Spring indexer to improve cold startime -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -74,9 +71,27 @@
 
         <!-- AWS Logging -->
         <dependency>
-            <groupId>io.symphonia</groupId>
-            <artifactId>lambda-logging</artifactId>
-            <version>1.0.0</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-lambda-java-log4j2</artifactId>
+            <version>1.1.0</version>
         </dependency>
 
         <!-- AWS CDK -->
@@ -149,7 +164,7 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.10</version>
-            <optional>true</optional>
+            <scope>provided</scope>
         </dependency>
 
 
@@ -181,7 +196,6 @@
     </dependencies>
 
     <build>
-        <pluginManagement>
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -200,10 +214,6 @@
                     </executions>
                   </plugin>
                 <plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                </plugin>
-                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>2.22.0</version>
@@ -221,6 +231,5 @@
                     </dependencies>
                 </plugin>
             </plugins>
-        </pluginManagement>
     </build>
 </project>

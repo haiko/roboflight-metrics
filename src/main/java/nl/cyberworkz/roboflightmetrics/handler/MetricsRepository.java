@@ -8,7 +8,6 @@ import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.PutItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.Table;
-import com.amazonaws.services.dynamodbv2.model.PutItemRequest;
 import lombok.extern.slf4j.Slf4j;
 import nl.cyberworkz.roboflightmetrics.handler.domain.Metrics;
 import org.slf4j.Logger;
@@ -16,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 /**
  * Interfaces with DestinationRepo.
@@ -27,9 +25,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Component
 public class MetricsRepository {
-	
-	private static Logger LOG = LoggerFactory.getLogger(MetricsRepository.class);
-	
+
 	@Value("${metrics.tablename}")
 	private String metricsTable;
 
@@ -49,7 +45,7 @@ public class MetricsRepository {
 				.with("landingTime", metrics.getLandingTime());
 
 		PutItemOutcome outcome = table.putItem(item);
-		log.info(outcome.toString());
+		log.info(outcome.getPutItemResult().toString());
 	}
 
 }

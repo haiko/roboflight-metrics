@@ -7,8 +7,9 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.SQSEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
 import nl.cyberworkz.roboflightmetrics.handler.domain.Metrics;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
@@ -17,9 +18,10 @@ import org.springframework.stereotype.Component;
  * @author haiko
  *
  */
-@Slf4j
 @Component
 public class QueueConsumerLambdaHandler implements RequestHandler<SQSEvent, Void> {
+
+    private static Logger log = LoggerFactory.getLogger(QueueConsumerLambdaHandler.class);
 
     static {
         try {
@@ -45,7 +47,7 @@ public class QueueConsumerLambdaHandler implements RequestHandler<SQSEvent, Void
     public Void handleRequest(SQSEvent event, Context context) {
         try {
             for (SQSEvent.SQSMessage message : event.getRecords()) {
-                String input = message.getBody();
+                log.info(message.getBody());
 
                 Metrics metrics = mapper.readValue(message.getBody(), Metrics.class);
                 metricsRepository.addMetrics(metrics);
