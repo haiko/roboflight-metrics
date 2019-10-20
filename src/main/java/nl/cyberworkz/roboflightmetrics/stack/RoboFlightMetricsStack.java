@@ -75,7 +75,7 @@ public class RoboFlightMetricsStack extends Stack {
                         .description("Collection metrics from AWS SQS queue")
                         .runtime(Runtime.JAVA_8)
                         .code(Code.asset("target/classes"))
-                        .handler("nl.cyberworkz.roboflightmetrics.handler.StreamLambdaHandler")
+                        .handler("nl.cyberworkz.roboflightmetrics.handler.QueueConsumerLambdaHandler")
                         .timeout(Duration.seconds(10))
                         .memorySize(256)
                         .events(eventSources)

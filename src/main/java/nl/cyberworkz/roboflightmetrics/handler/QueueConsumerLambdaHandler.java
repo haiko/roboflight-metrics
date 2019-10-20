@@ -38,6 +38,9 @@ public class QueueConsumerLambdaHandler implements RequestHandler<SQSEvent, Void
     @Autowired
     private ObjectMapper mapper;
 
+    @Autowired
+    private MetricsRepository metricsRepository;
+
     @Override
     public Void handleRequest(SQSEvent event, Context context) {
         try {
@@ -45,7 +48,7 @@ public class QueueConsumerLambdaHandler implements RequestHandler<SQSEvent, Void
                 String input = message.getBody();
 
                 Metrics metrics = mapper.readValue(message.getBody(), Metrics.class);
-
+                metricsRepository.addMetrics(metrics);
             }
         } catch (Exception ex) {
             throw new RuntimeException(ex);
