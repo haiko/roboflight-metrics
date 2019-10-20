@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform:
+- AWS::Serverless-2016-10-31
+
+Parameters:
+  ProjectId:
+    Type: String
+    Description: RoboFlightMetrics Service as Lambda.
+
+Resources:
+  RoboFlightMetrics:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: target/roboflight-metrics-0.0.1.jar
+      Handler: nl.cyberworkz.roboflightmetrics.handler.QueueConsumerLambdaHandler
+      Runtime: java8
+      Policies: AWSLambdaBasicExecutionRole
+      Timeout: 60
+      MemorySize: 512      
+      Role:
+        Fn::ImportValue:
+          !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
