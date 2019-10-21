@@ -10,7 +10,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.cyberworkz.roboflightmetrics.handler.domain.Metrics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
@@ -23,6 +22,8 @@ import org.springframework.stereotype.Component;
 public class QueueConsumerLambdaHandler implements RequestHandler<SQSEvent, Void> {
 
     private static Logger log = LoggerFactory.getLogger(QueueConsumerLambdaHandler.class);
+
+    private static ConfigurableApplicationContext appContext;
 
     static {
         try {
@@ -41,13 +42,8 @@ public class QueueConsumerLambdaHandler implements RequestHandler<SQSEvent, Void
         }
     }
 
-    private static ConfigurableApplicationContext appContext;
-
-
-    @Autowired
     private ObjectMapper mapper;
 
-    @Autowired
     private MetricsRepository metricsRepository;
 
     public QueueConsumerLambdaHandler() {
