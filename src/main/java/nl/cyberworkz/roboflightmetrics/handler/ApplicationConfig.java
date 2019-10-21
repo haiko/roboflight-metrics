@@ -9,6 +9,7 @@ import com.amazonaws.xray.handlers.TracingHandler;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import nl.cyberworkz.roboflightmetrics.handler.domain.Metrics;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -45,5 +46,10 @@ public class ApplicationConfig {
     	builder.setClientConfiguration(clientConfiguration);
     	builder.withRequestHandlers(new TracingHandler(AWSXRay.getGlobalRecorder()));
     	return builder.build();
+    }
+
+    @Bean
+    public MetricsRepository createMetricsRepository() {
+        return new MetricsRepository();
     }
 }
