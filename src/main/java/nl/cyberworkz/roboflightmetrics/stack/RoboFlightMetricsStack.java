@@ -29,7 +29,7 @@ import java.util.UUID;
  */
 public class RoboFlightMetricsStack extends Stack {
 
-    private final static String region = "";
+    private final static String region = "eu-central-1";
     private final static  String account = "";
 
     RoboFlightMetricsStack(final Construct parent, final String name) {
@@ -75,7 +75,7 @@ public class RoboFlightMetricsStack extends Stack {
                         .description("Collection metrics from AWS SQS queue")
                         .runtime(Runtime.JAVA_8)
                         .code(Code.asset("target/classes"))
-                        .handler("nl.cyberworkz.roboflightmetrics.handler.QueueConsumerLambdaHandler")
+                        .handler("nl.cyberworkz.roboflightmetrics.handler.MetricsConsumerLambdaHandler")
                         .timeout(Duration.seconds(10))
                         .memorySize(256)
                         .events(eventSources)
