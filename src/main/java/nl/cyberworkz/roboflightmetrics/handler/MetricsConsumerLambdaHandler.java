@@ -15,21 +15,22 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.stereotype.Component;
 
 /**
+ *
+ * Consume metrics from Robo Flight Monitor.
+ *
  * @author haiko
  *
  */
 @Component
-public class QueueConsumerLambdaHandler implements RequestHandler<SQSEvent, Void> {
+public class MetricsConsumerLambdaHandler implements RequestHandler<SQSEvent, Void> {
 
-    private static Logger log = LoggerFactory.getLogger(QueueConsumerLambdaHandler.class);
+    private static Logger log = LoggerFactory.getLogger(MetricsConsumerLambdaHandler.class);
 
     private static ConfigurableApplicationContext appContext;
 
     static {
         try {
             log.info("start lambda container init");
-
-
 
             // Retrieve dependent components from the application context
             appContext = new AnnotationConfigApplicationContext(ApplicationConfig.class);
@@ -46,7 +47,7 @@ public class QueueConsumerLambdaHandler implements RequestHandler<SQSEvent, Void
 
     private MetricsRepository metricsRepository;
 
-    public QueueConsumerLambdaHandler() {
+    public MetricsConsumerLambdaHandler() {
         if(appContext == null){
             appContext = new AnnotationConfigApplicationContext(ApplicationConfig.class);
         }
